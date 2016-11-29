@@ -1,0 +1,61 @@
+https://webpack.github.io/docs/usage.html
+
+npm install webpack -g
+
+The “entry point” is where your application will start, and where webpack will start tracking dependencies between modules.
+
+Give webpack the entry point (app.js) and specify an output file (app.bundle.js):
+
+webpack ./app.js app.bundle.js
+
+Run node app.bundle.js and marvel in your abundance of cats.
+
+ mkdir bin
+ mkdir src
+ mv app.js cats.js src
+ npm init
+ npm install --save-dev webpack
+
+
+webpack.config.js:
+// DOESNT WORK
+ module.exports = {
+     entry: './src/app.js',
+     output: {
+         path: './bin',
+         filename: 'app.bundle.js',
+     },
+     module: {
+         loaders: [{
+             test: /\.js$/,
+             exclude: /node_modules/,
+             loader: 'babel-loader'
+         }]
+     }
+ }
+// WORKS
+var path = require('path');
+
+module.exports = {  
+  entry: path.resolve(__dirname, './src/app.js'),
+  output: {
+    path: path.resolve(__dirname, './bin'),
+    filename: 'bundle.js'
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.js$/, 
+        loader: 'babel-loader', 
+        include: [
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules', 'prosemirror')
+        ],
+        // Need this here for prosemirror til it has own .babelrc
+        query: {
+          presets: ['es2015']
+        }
+      }]
+  }
+};
