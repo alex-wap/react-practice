@@ -59,3 +59,5 @@ module.exports = {
       }]
   }
 };
+
+you can serve your site with node-static install the module with, npm install -g node-static and start with static . to serve your folder's content on the address: 127.0.0.1:8080.
